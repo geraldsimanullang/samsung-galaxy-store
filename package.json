@@ -1,0 +1,12 @@
+{
+  "name": "gc02-geraldsimanullang",
+  "version": "1.0.0",
+  "description": "> Tuliskan API Docs kamu di sini",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
