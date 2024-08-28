@@ -1,14 +1,11 @@
-import { useState } from 'react'
+import Home from "./components/Home.jsx";
 
-function App() {
-
+export default function App() {
   return (
-    <div className='min-h-screen bg-white'>
-    <div className='text-3xl font-semibold text-purple-500'>
-      Hello diks
+    <>
+    <div className="min-h-screen bg-white">
+      <Home />
     </div>
-  </div>
-  )
+    </>
+  );
 }
-
-export default App
