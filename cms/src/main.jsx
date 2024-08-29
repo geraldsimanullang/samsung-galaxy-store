@@ -1,20 +1,13 @@
-import { StrictMode } from "react";
+import React from "react";
 import { createRoot } from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
-import App from "./App.jsx";
+import { RouterProvider } from "react-router-dom";
 import "./index.css";
-import LoginPage from "./components/LoginPage.jsx";
-import "toastify-js/src/toastify.css"
+import "toastify-js/src/toastify.css";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <LoginPage />
-  }
-]);
+import router from "./routes/index.jsx";
 
 createRoot(document.getElementById("root")).render(
-  <RouterProvider router={router}>
-    <App />
-  </RouterProvider>
+  <React.StrictMode>
+    <RouterProvider router={router} />
+  </React.StrictMode>
 );

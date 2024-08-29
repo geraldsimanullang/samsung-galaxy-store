@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import samsung from "../assets/samsung.svg";
 import axios from "axios";
 import Toastify from "toastify-js";
@@ -7,44 +8,47 @@ export default function LoginPage() {
   const [emailOrUsername, setEmailOrUsername] = useState("");
   const [password, setPassword] = useState("");
 
+  const navigate = useNavigate();
+
   async function login(e) {
     try {
       e.preventDefault();
 
-      const { data } = await axios.post("http://geraldsimanullang.site/login", {emailOrUsername, password});
+      const { data } = await axios.post("https://server.geraldsimanullang.site/login", {emailOrUsername, password});
 
-      console.log(data)
+      localStorage.setItem("access_token", data.access_token);
+      localStorage.setItem("role", data.role)
 
-      // localStorage.setItem("access_token", data.data.access_token);
-      // setPage("home");
-      // Toastify({
-      //   text: "Login success",
-      //   duration: 3000,
-      //   newWindow: true,
-      //   close: true,
-      //   gravity: "bottom", // `top` or `bottom`
-      //   position: "right", // `left`, `center` or `right`
-      //   stopOnFocus: true, // Prevents dismissing of toast on hover
-      //   style: {
-      //     background: "#008000",
-      //   },
-      //   onClick: function () {}, // Callback after click
-      // }).showToast();
+      Toastify({
+        text: "Login success",
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#008000",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+
+      navigate("/")
+
     } catch (error) {
-      console.log(error)
-      // Toastify({
-      //   text: error.response.data.error,
-      //   duration: 3000,
-      //   newWindow: true,
-      //   close: true,
-      //   gravity: "bottom", // `top` or `bottom`
-      //   position: "right", // `left`, `center` or `right`
-      //   stopOnFocus: true, // Prevents dismissing of toast on hover
-      //   style: {
-      //     background: "#FF0000",
-      //   },
-      //   onClick: function () {}, // Callback after click
-      // }).showToast();
+      Toastify({
+        text: error.response.data.message,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#FF0000",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
     }
   }
 
@@ -75,7 +79,9 @@ export default function LoginPage() {
                   id="emailOrUsername"
                   name="emailOrUsername"
                   required=""
+                  autoComplete=""
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e)=> setEmailOrUsername(e.target.value)}
                 />
               </div>
             </div>
@@ -96,6 +102,7 @@ export default function LoginPage() {
                   autoComplete="current-password"
                   required=""
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                  onChange={(e) => setPassword(e.target.value)}
                 />
               </div>
             </div>
