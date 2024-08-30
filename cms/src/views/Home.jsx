@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Loading from "../assets/Loading.svg";
 
 export default function Home({ serverUrl }) {
@@ -94,10 +94,11 @@ export default function Home({ serverUrl }) {
                   <>
                     <tr>
                       <td>
-                        <div className="avatar">
+                        <div className="avatar flex flex-col items-center">
                           <div className="mask mask-squircle h-12 w-12">
                             <img src={el.imgUrl} alt="" />
                           </div>
+                          <Link to="" className="text-xs text-blue-600">Edit image</Link>
                         </div>
                       </td>
                       <td>

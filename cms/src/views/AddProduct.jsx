@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import ProductForm from "../components/ProductForm";
 import axios from "axios";
+import Toastify from "toastify-js";
 
 export default function AddProduct({ serverUrl }) {
   const navigate = useNavigate();
@@ -27,7 +28,19 @@ export default function AddProduct({ serverUrl }) {
 
       navigate("/");
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: error.response.data.message,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#FF0000",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
     }
   }
 
