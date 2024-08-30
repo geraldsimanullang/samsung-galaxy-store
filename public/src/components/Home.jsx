@@ -8,7 +8,7 @@ export default function Home() {
   async function getProducts() {
     try {
       const { data } = await axios.get(
-        "https://server.geraldsimanullang.site/pub/products?page=1"
+        "https://server.geraldsimanullang.site/pub/products"
       );
 
       setProducts(data.data);
@@ -23,8 +23,8 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex flex-wrap bg-white justify-around">
-        {products.map((el) => (
+      <main className="flex flex-wrap bg-white justify-start">
+        {products.slice().reverse().map((el) => (
           <Card product={el} />
         ))}
       </main>
