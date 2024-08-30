@@ -4,7 +4,8 @@ import Login from "../views/Login";
 import Home from "../views/Home";
 import Categories from "../views/Categories"
 import AddProduct from "../views/AddProduct"
-import EditProduct from "../views/AddProduct"
+import EditProduct from "../views/EditProduct"
+import AddUser from "../views/AddUser"
 const serverUrl = "https://server.geraldsimanullang.site"
 
 const router = createBrowserRouter([
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
       },
       {
         path: "/add-user",
-        element: <Home serverUrl={serverUrl}/>,
+        element: <AddUser serverUrl={serverUrl}/>,
       },
       {
         path: "/edit/:id",
