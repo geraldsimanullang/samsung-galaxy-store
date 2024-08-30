@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Card from "./Card";
+import Card from "../components/Card";
 import axios from "axios";
 
 export default function Home() {
@@ -23,7 +23,7 @@ export default function Home() {
 
   return (
     <>
-      <main className="flex flex-wrap bg-white justify-start">
+      <main className="flex flex-wrap bg-white justify-center">
         {products.slice().reverse().map((el) => (
           <Card product={el} />
         ))}
