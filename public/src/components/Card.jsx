@@ -1,26 +1,34 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Card({ product }) {
+  const navigate = useNavigate();
 
   function displayPrice(price) {
-    const formatter = new Intl.NumberFormat('id-ID', {
-      style: 'currency',
-      currency: 'IDR',
-      maximumFractionDigits: 0
-    })
+    const formatter = new Intl.NumberFormat("id-ID", {
+      style: "currency",
+      currency: "IDR",
+      maximumFractionDigits: 0,
+    });
 
-    return formatter.format(price)
+    return formatter.format(price);
+  }
+
+  function handleSeeDetail(event, id) {
+    event.preventDefault();
+    navigate(`/${id}`);
   }
 
   return (
-    <div className="card bg-white-100 max-w-64 shadow-2xl mt-10 mx-5 text-black">
+    <div className="card bg-white-100 w-48 h-96 shadow-2xl mt-1 mx-2 text-black">
       <figure>
-        <img src={product.imgUrl} alt={product.name} className="p-4 max-h-56"/>
+        <img src={product.imgUrl} alt={product.name} className="p-9 max-h-56" />
       </figure>
       <div className="card-body">
         <h2 className="card-title text-xs font-normal">{product.name}</h2>
         <p className="font-bold text-sm">{displayPrice(product.price)}</p>
       </div>
       <div className="flex justify-end p-6">
-        <button>
+        <button onClick={(event) => handleSeeDetail(event, product.id)}>
           See Detail
         </button>
       </div>
