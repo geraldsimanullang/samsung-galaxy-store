@@ -1,7 +1,11 @@
 import { createBrowserRouter, redirect } from "react-router-dom";
 import BaseLayout from "../layouts/BaseLayout";
-import Home from "../views/Home";
 import Login from "../views/Login";
+import Home from "../views/Home";
+import Categories from "../views/Categories"
+import AddProduct from "../views/AddProduct"
+import EditProduct from "../views/AddProduct"
+const serverUrl = "https://server.geraldsimanullang.site"
 
 const router = createBrowserRouter([
   {
@@ -16,21 +20,29 @@ const router = createBrowserRouter([
     children: [
       {
         path: "/",
-        element: <Home />,
+        element: <Home serverUrl={serverUrl}/>,
+      },
+      {
+        path: "/categories",
+        element: <Categories serverUrl={serverUrl}/>,
+      },
+      {
+        path: "/add-product",
+        element: <AddProduct serverUrl={serverUrl}/>,
       },
       {
         path: "/add-user",
-        element: <Home />,
+        element: <Home serverUrl={serverUrl}/>,
       },
       {
-        path: ":id",
-        element: <Home />,
+        path: "/edit/:id",
+        element: <EditProduct serverUrl={serverUrl}/>,
       },
     ],
   },
   {
     path: "/login",
-    element: <Login />,
+    element: <Login serverUrl={serverUrl}/>,
     loader: () => {
       if (localStorage.getItem("access_token")) {
         return redirect("/");

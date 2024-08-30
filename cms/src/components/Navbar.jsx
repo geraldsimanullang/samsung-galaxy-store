@@ -1,15 +1,14 @@
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
 
 export default function Navbar() {
-  
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   function logout() {
-    localStorage.clear()
-    navigate("/login")
+    localStorage.clear();
+    navigate("/login");
   }
-  
+
   return (
     <>
       <div className="navbar bg-base-100">
@@ -32,22 +31,27 @@ export default function Navbar() {
               </svg>
             </div>
           </div>
-          <a className="btn btn-ghost text-xl">Content Management System</a>
+          <Link to="/" className="btn btn-ghost text-xl">Content Management System</Link>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1">
             <li>
-              <a>Add Product</a>
+              <Link to="/categories" >Categories</Link>
             </li>
-            {localStorage.getItem("role") === "Admin" && 
             <li>
-              <a>Add User</a>
+              <Link to="/add-product">Add Product</Link>
             </li>
-            }
+            {localStorage.getItem("role") === "Admin" && (
+              <li>
+                <Link to="/add-user" >Add User</Link>
+              </li>
+            )}
           </ul>
         </div>
         <div className="navbar-end">
-          <button className="btn btn-error" onClick={logout}>Logout</button>
+          <button className="btn btn-error" onClick={logout}>
+            Logout
+          </button>
         </div>
       </div>
     </>

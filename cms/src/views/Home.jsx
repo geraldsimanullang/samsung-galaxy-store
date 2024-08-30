@@ -1,14 +1,14 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-export default function Home() {
+export default function Home({serverUrl}) {
   const [products, setProducts] = useState([]);
 
   async function getProducts() {
     try {
       const { data } = await axios.get(
-        "https://server.geraldsimanullang.site/products",
+        `${serverUrl}/products`,
         {
           headers: {
             Authorization: `Bearer ${localStorage.getItem("access_token")}`,
@@ -32,6 +32,31 @@ export default function Home() {
     return formatter.format(price);
   }
 
+  const navigate = useNavigate();
+
+  function handleEditButton(event, id) {
+    event.preventDefault();
+
+    navigate(`/edit/${id}`);
+  }
+
+  async function handleDeleteButton(event, id) {
+    try {
+      event.preventDefault();
+
+      await axios.delete(`https://server.geraldsimanullang.site/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("access_token")}`
+        }
+      })
+
+      getProducts();
+      
+    } catch (error) {
+      console.log(error)
+    } 
+  }
+
   useEffect(() => {
     getProducts();
   }, []);
@@ -48,40 +73,53 @@ export default function Home() {
               <th>Description</th>
               <th>Price</th>
               <th>Stock</th>
-              <th>Category</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {/* rows */}
-            {products.map((product) => {
+            {products.map((el) => {
               return (
                 <>
                   <tr>
                     <td>
                       <div className="avatar">
                         <div className="mask mask-squircle h-12 w-12">
-                          <img src={product.imgUrl} alt="" />
+                          <img src={el.imgUrl} alt="" />
                         </div>
-                      </div> <br />
-                      <div>
-                        <Link>Upload</Link>
                       </div>
                     </td>
                     <td>
                       <div className="flex items-center gap-3">
                         <div>
-                          <div className="font-bold">{product.name}</div>
+                          <div className="font-bold">{el.name}</div>
                         </div>
                       </div>
                     </td>
                     <td>
-                      <p className="max-w-96">{product.description}</p>
+                      <p className="max-w-96">{el.description}</p>
                     </td>
                     <td>
-                      <p>{displayPrice(product.price)}</p>
+                      <p>{displayPrice(el.price)}</p>
                     </td>
                     <td>
-                      <p>{product.stock}</p>
+                      <p>{el.stock}</p>
+                    </td>
+                    <td>
+                      <div className="flex gap-2">
+                        <button
+                          className="btn btn-active btn-primary"
+                          onClick={(event) => handleEditButton(event, el.id)}
+                        >
+                          Edit
+                        </button>
+                        <button
+                          className="btn btn-error"
+                          onClick={(event) => handleDeleteButton(event, el.id)}
+                        >
+                          Delete
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 </>
