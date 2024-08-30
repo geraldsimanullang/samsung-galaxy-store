@@ -6,6 +6,7 @@ import Categories from "../views/Categories"
 import AddProduct from "../views/AddProduct"
 import EditProduct from "../views/EditProduct"
 import AddUser from "../views/AddUser"
+import EditImage from "../views/EditImage"
 const serverUrl = "https://server.geraldsimanullang.site"
 
 const router = createBrowserRouter([
@@ -38,6 +39,10 @@ const router = createBrowserRouter([
       {
         path: "/edit/:id",
         element: <EditProduct serverUrl={serverUrl}/>,
+      },
+      {
+        path: "/edit-image/:id",
+        element: <EditImage serverUrl={serverUrl}/>,
       },
     ],
   },

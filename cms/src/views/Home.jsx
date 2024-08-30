@@ -67,13 +67,12 @@ export default function Home({ serverUrl }) {
 
   return (
     <>
-      {loading ? 
-
-          <div className="min-h-screen flex flex-col items-center mt-32 ">
-            <img src={Loading} className="size-16"/>
-            <p>fetching data...</p>
-          </div>
-       : 
+      {loading ? (
+        <div className="min-h-screen flex flex-col items-center mt-32 ">
+          <img src={Loading} className="size-16" />
+          <p>fetching data...</p>
+        </div>
+      ) : (
         <div className="overflow-x-auto p-10">
           <table className="table text-black">
             {/* head */}
@@ -89,60 +88,70 @@ export default function Home({ serverUrl }) {
             </thead>
             <tbody>
               {/* rows */}
-              {products.slice().reverse().map((el) => {
-                return (
-                  <>
-                    <tr>
-                      <td>
-                        <div className="avatar flex flex-col items-center">
-                          <div className="mask mask-squircle h-12 w-12">
-                            <img src={el.imgUrl} alt="" />
+              {products
+                .slice()
+                .reverse()
+                .map((el) => {
+                  return (
+                    <>
+                      <tr>
+                        <td>
+                          <div className="avatar flex flex-col items-center">
+                            <div className="mask mask-squircle h-16 w-16">
+                              <img src={el.imgUrl} alt="" />
+                            </div>
+                            <Link to={`/edit-image/${el.id}`}>
+                              {" "}
+                              <button className="cursor-pointer text-xs text-blue-600">
+                                Edit image
+                              </button>
+                            </Link>
                           </div>
-                          <Link to="" className="text-xs text-blue-600">Edit image</Link>
-                        </div>
-                      </td>
-                      <td>
-                        <div className="flex items-center gap-3">
-                          <div>
-                            <div className="font-bold">{el.name}</div>
+                        </td>
+                        <td>
+                          <div className="flex items-center gap-3">
+                            <div>
+                              <div className="font-bold">{el.name}</div>
+                            </div>
                           </div>
-                        </div>
-                      </td>
-                      <td>
-                        <p className="max-w-96">{el.description}</p>
-                      </td>
-                      <td>
-                        <p>{displayPrice(el.price)}</p>
-                      </td>
-                      <td>
-                        <p>{el.stock}</p>
-                      </td>
-                      <td>
-                        <div className="flex gap-2">
-                          <button
-                            className="btn btn-active btn-primary"
-                            onClick={(event) => handleEditButton(event, el.id)}
-                          >
-                            Edit
-                          </button>
-                          <button
-                            className="btn btn-error"
-                            onClick={(event) =>
-                              handleDeleteButton(event, el.id)
-                            }
-                          >
-                            Delete
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
+                        </td>
+                        <td>
+                          <p className="max-w-96">{el.description}</p>
+                        </td>
+                        <td>
+                          <p>{displayPrice(el.price)}</p>
+                        </td>
+                        <td>
+                          <p>{el.stock}</p>
+                        </td>
+                        <td>
+                          <div className="flex gap-2">
+                            <button
+                              className="btn btn-active btn-primary"
+                              onClick={(event) =>
+                                handleEditButton(event, el.id)
+                              }
+                            >
+                              Edit
+                            </button>
+                            <button
+                              className="btn btn-error"
+                              onClick={(event) =>
+                                handleDeleteButton(event, el.id)
+                              }
+                            >
+                              Delete
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
             </tbody>
           </table>
         </div>
-      }
+      )}
     </>
   );
 }

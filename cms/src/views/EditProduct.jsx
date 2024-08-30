@@ -25,7 +25,7 @@ export default function EditProduct({ serverUrl }) {
 
   useEffect(() => {
     getProduct()
-  }, [])
+  }, [id])
 
   async function handleSubmit(
     event,
