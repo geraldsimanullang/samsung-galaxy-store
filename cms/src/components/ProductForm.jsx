@@ -7,12 +7,13 @@ export default function ProductForm({
   formTitle,
   buttonText,
   handleSubmit,
+  product,
 }) {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [imgUrl, setImgUrl] = useState("");
-  const [price, setPrice] = useState(0);
-  const [stock, setStock] = useState(0);
+  const [price, setPrice] = useState();
+  const [stock, setStock] = useState();
   const [categoryId, setCategoryId] = useState(1);
   const [categories, setCategories] = useState([]);
 
@@ -23,7 +24,6 @@ export default function ProductForm({
           Authorization: `Bearer ${localStorage.getItem("access_token")}`,
         },
       });
-      console.log(data.categories);
       setCategories(data.categories);
     } catch (error) {
       console.log(error);
@@ -34,10 +34,21 @@ export default function ProductForm({
     fetchCategories();
   }, []);
 
+  useEffect(() => {
+    if (product) {
+      setName(product.name);
+      setDescription(product.description);
+      setImgUrl(product.imgUrl);
+      setPrice(product.price);
+      setStock(product.stock);
+      setCategoryId(product.categoryId);
+    }
+  }, [product]);
+
   return (
     <>
       <div className="flex flex-col items-center text-black">
-        <h1 className="font-bold text-2xl pt-10">{formTitle}</h1>
+        <h1 className="font-bold text-2xl pt-10">{formTitle} {name}</h1>
         <form
           className="flex flex-col w-2/5 pt-10 gap-1"
           onSubmit={(event) =>
@@ -57,13 +68,15 @@ export default function ProductForm({
             type="text"
             name="name"
             className="h-8 mb-3"
+            value={name}
             onChange={(e) => setName(e.target.value)}
           />
 
           <label htmlFor="description">Description</label>
           <textarea
             name="description"
-            className=" mb-3"
+            className=" mb-3 h-28 resize-none"
+            value={description}
             onChange={(e) => setDescription(e.target.value)}
           />
 
@@ -72,6 +85,7 @@ export default function ProductForm({
             type="text"
             name="imgUrl"
             className="h-8 mb-3"
+            value={imgUrl}
             onChange={(e) => setImgUrl(e.target.value)}
           />
 
@@ -82,6 +96,7 @@ export default function ProductForm({
                 type="number"
                 name="price"
                 className="h-8 mb-3 w-auto"
+                value={price}
                 onChange={(e) => setPrice(e.target.value)}
               />
             </div>
@@ -91,6 +106,7 @@ export default function ProductForm({
                 type="number"
                 name="stock"
                 className="h-8 mb-3 w-36"
+                value={stock}
                 onChange={(e) => setStock(e.target.value)}
               />
             </div>

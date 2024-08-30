@@ -89,7 +89,7 @@ export default function Home({ serverUrl }) {
             </thead>
             <tbody>
               {/* rows */}
-              {products.map((el) => {
+              {products.slice().reverse().map((el) => {
                 return (
                   <>
                     <tr>

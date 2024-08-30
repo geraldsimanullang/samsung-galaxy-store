@@ -3,7 +3,7 @@ import ProductForm from "../components/ProductForm";
 import axios from "axios";
 
 export default function AddProduct({ serverUrl }) {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   async function handleSubmit(
     event,
@@ -25,10 +25,9 @@ export default function AddProduct({ serverUrl }) {
         },
       });
 
-      navigate("/")
-
+      navigate("/");
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
   }
 
