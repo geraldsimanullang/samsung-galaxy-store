@@ -19,7 +19,7 @@ export default function Card({ product }) {
   }
 
   return (
-    <div className="card bg-white-100 w-48 h-96 shadow-2xl mt-1 mx-2 text-black">
+    <div className="card border-y bg-white-100 w-48 h-96 shadow-xl mt-1 mx-2 text-black transform hover:scale-105 transition-transform duration-200">
       <figure>
         <img src={product.imgUrl} alt={product.name} className="p-9 max-h-56" />
       </figure>

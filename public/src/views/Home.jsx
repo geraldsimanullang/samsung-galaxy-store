@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -27,7 +28,7 @@ export default function Home() {
   async function fetchProducts() {
     try {
       const { data } = await axios.get(
-        `https://server.geraldsimanullang.site/pub/products?page=${page}&filter[category]=${filter}`
+        `https://server.geraldsimanullang.site/pub/products?search=${search}&filter[category]=${filter}&page=${page}`
       );
       console.log(data);
       setProducts(data.data);
@@ -36,7 +37,14 @@ export default function Home() {
     }
   }
 
-  async function handleFilter(event) {
+  function handleSearch(event) {
+    event.preventDefault();
+    console.log(event);
+
+    setSearch(event.target[0].value);
+  }
+
+  function handleFilter(event) {
     event.preventDefault();
     const c1 = event.target[0].checked;
     const c2 = event.target[1].checked;
@@ -61,14 +69,33 @@ export default function Home() {
 
   return (
     <>
-      <div className="flex flex-col gap-4 bg-white">
-        <div className="bg-orange-50 p-5">
+      <div className="flex flex-col gap-2 bg-white">
+        <div className="p-2">
           <h1 className="text-black text-3xl text-center">
             Samsung Galaxy Store
           </h1>
         </div>
+
         <div className="flex justify-start pl-5">
-          <div className="flex flex-col gap-2 w-auto">
+          <div className="flex flex-col gap-2 pt-3 w-auto">
+            <div>
+              <form
+                className="flex flex-col pb-4 gap-2"
+                onSubmit={(event) => handleSearch(event)}
+              >
+                <input
+                  type="text"
+                  className="w-30 h-8 px-4 py-2 border bg-white text-black text-xs border-gray-300 rounded-lg focus:outline-none"
+                  placeholder="Search"
+                />
+                <button
+                  type="submit"
+                  className="w-16 px-2 py-1 bg-orange-100 font-semibold text-black text-xs rounded-lg shadow-md hover:bg-orange-400"
+                >
+                  Search
+                </button>
+              </form>
+            </div>
             <h2 className="text-black text-sm font-semibold whitespace-nowrap">
               Filter by category
             </h2>
@@ -95,16 +122,20 @@ export default function Home() {
                   type="submit"
                   className="w-16 px-2 py-1 bg-orange-100 font-semibold text-black text-xs rounded-lg shadow-md hover:bg-orange-400"
                 >
-                  Filter
+                  Apply
                 </button>
               </div>
             </form>
           </div>
-          <main className="flex flex-wrap justify-start px-6 gap-6">
-            {products.map((el) => (
-              <Card product={el} />
-            ))}
-          </main>
+          <div className="flex flex-col">
+            <main className="flex flex-wrap justify-start px-6 pb-6 gap-6">
+              {products.map((el) => (
+                <Link to={`/${el.id}`}>
+                  <Card product={el} />
+                </Link>
+              ))}
+            </main>
+          </div>
         </div>
       </div>
     </>
