@@ -25,7 +25,7 @@ export default function Card({ product }) {
       </figure>
       <div className="card-body pt-2 pb-2">
         <h2 className="card-title text-xs font-normal">{product.name}</h2>
-        <p className="font-bold text-xs text-green-700">{displayPrice(product.price)}</p>
+        <p className="font-bold text-xs text-orange-500">{displayPrice(product.price)}</p>
       </div>
       <div className="flex justify-end pb-6 pr-6 pt-4">
         <button className="text-xs" onClick={(event) => handleSeeDetail(event, product.id)}>

@@ -108,7 +108,6 @@ export default function Home() {
             Samsung Galaxy Store
           </h1>
         </div>
-
         <div className="flex justify-start pl-5">
           <div className="flex flex-col gap-3 pt-3 w-auto mr-5">
             <div className="flex flex-col gap-2">
