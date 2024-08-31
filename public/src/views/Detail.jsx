@@ -67,9 +67,11 @@ export default function Detail() {
               {product.description}
             </p>
             <h2 className="text-sm text-black font-bold">Price:</h2>
-            <p className="text-lg text-orange-500 font-bold">
+            <p className="text-lg text-orange-500 font-bold mb-8">
               {displayPrice(product.price)},-
             </p>
+            <h2 className="text-sm text-black font-bold">Stock left:</h2>
+            <p className="text-black">{product.stock}</p>
           </div>
         </div>
       )}
