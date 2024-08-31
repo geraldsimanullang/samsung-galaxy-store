@@ -32,7 +32,7 @@ export default function Home() {
     try {
       setLoading(true);
       const { data } = await axios.get(
-        `https://server.geraldsimanullang.site/pub/products?search=${search}&filter[category]=${filter}&page=${page}`
+        `https://server.geraldsimanullang.site/pub/products?search=${search}&filter[category]=${filter}&sort=${sort}&page=${page}`
       );
 
       setPage(data.currentPage);
@@ -72,6 +72,16 @@ export default function Home() {
     }
   }
 
+  function handleSort(event) {
+    event.preventDefault();
+
+    if (event.target[1].checked) {
+      setSort("ASC")
+    } else {
+      setSort("DESC")
+    }
+  }
+
   function handlePreviousPage(event) {
     event.preventDefault();
     if (page > 1) {
@@ -100,38 +110,76 @@ export default function Home() {
         </div>
 
         <div className="flex justify-start pl-5">
-          <div className="flex flex-col gap-2 pt-3 w-auto mr-5">
-            <div></div>
-            <h2 className="text-black text-sm font-semibold whitespace-nowrap">
-              Filter by category
-            </h2>
-            <form
-              className="flex flex-col gap-2"
-              onSubmit={(event) => handleFilter(event)}
-            >
-              {categories.map((category) => {
-                return (
-                  <div className="flex gap-1 items-center">
-                    <input
-                      type="checkbox"
-                      className="checkbox"
-                      value={category.id}
-                    />
-                    <label className="text-xs text-black whitespace-nowrap">
-                      {category.name}
-                    </label>
-                  </div>
-                );
-              })}
-              <div className="flex justify-start">
-                <button
-                  type="submit"
-                  className="w-16 px-2 py-1 bg-orange-100 font-semibold text-black text-xs rounded-lg shadow-md hover:bg-orange-400"
-                >
-                  Apply
-                </button>
-              </div>
-            </form>
+          <div className="flex flex-col gap-3 pt-3 w-auto mr-5">
+            <div className="flex flex-col gap-2">
+              <h2 className="text-black text-sm font-semibold whitespace-nowrap">
+                Filter by category
+              </h2>
+              <form
+                className="flex flex-col gap-2"
+                onSubmit={(event) => handleFilter(event)}
+              >
+                {categories.map((category) => {
+                  return (
+                    <div className="flex gap-1 items-center">
+                      <input
+                        type="checkbox"
+                        className="checkbox"
+                        value={category.id}
+                      />
+                      <label className="text-xs text-black whitespace-nowrap">
+                        {category.name}
+                      </label>
+                    </div>
+                  );
+                })}
+                <div className="flex justify-start">
+                  <button
+                    type="submit"
+                    className="w-16 px-2 py-1 bg-orange-100 font-semibold text-black text-xs rounded-lg shadow-md hover:bg-orange-400"
+                  >
+                    Filter
+                  </button>
+                </div>
+              </form>
+            </div>
+            <div className="flex flex-col gap-2 pt-3 w-auto mr-5">
+              <h2 className="text-black text-sm font-semibold whitespace-nowrap">
+                Sort
+              </h2>
+              <form
+                className="flex flex-col gap-2"
+                onSubmit={(event) => handleSort(event)}
+              >
+                <div className="flex gap-2 items-center bg-white">
+                  <input
+                    type="radio"
+                    name="sort"
+                    className="accent-orange-300"
+                    value="DESC"
+                    defaultChecked
+                  />
+                  <label className="text-xs text-black">Newest</label>
+                </div>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="radio"
+                    name="sort"
+                    className="accent-orange-300"
+                    value="ASC"
+                  />
+                  <label className="text-xs text-black">Oldest</label>
+                </div>
+                <div className="flex justify-start">
+                  <button
+                    type="submit"
+                    className="w-16 px-2 py-1 bg-orange-100 font-semibold text-black text-xs rounded-lg shadow-md hover:bg-orange-400"
+                  >
+                    Sort
+                  </button>
+                </div>
+              </form>
+            </div>
           </div>
           <div className="flex flex-col  w-full justify-start">
             <div className="flex flex-col">
@@ -143,8 +191,8 @@ export default function Home() {
                   >
                     <input
                       type="text"
-                      className="w-48 h-8 px-4 py-2 border bg-white text-black text-xs border-gray-300 rounded-lg focus:outline-none"
-                      placeholder="Search"
+                      className="w-60 h-8 px-4 py-2 border bg-white text-black text-xs border-gray-300 rounded-lg focus:outline-none"
+                      placeholder="Search Samsung Galaxy Phone"
                     />
                     <button
                       type="submit"
@@ -161,7 +209,7 @@ export default function Home() {
                   >
                     «
                   </button>
-                  <p className=" bg-white text-black border-0">{`Page ${page} / ${totalPage}`}</p>
+                  <p className=" bg-white text-black border-0 text-xs">{`Page ${page} / ${totalPage}`}</p>
                   <button
                     className="btn bg-white text-black border-0 hover:bg-slate-200"
                     onClick={(event) => handleNextPage(event)}
@@ -171,12 +219,12 @@ export default function Home() {
                 </div>
               </div>
               {loading ? (
-                <div className="flex flex-col justify-center items-center">
+                <div className="flex flex-col justify-end items-center h-60">
                   <img src={Loading} className="h-10 w-10" />
                   <p>Loading...</p>
                 </div>
               ) : (
-                <main className="flex flex-wrap justify-start pl-6 px-2 pb-10 pt-2 gap-6 gap-y-10">
+                <main className="flex flex-wrap justify-start pl-6 px-2 pb-8 pt-2 gap-6 gap-y-8">
                   {products.map((el) => (
                     <Link to={`/${el.id}`}>
                       <Card product={el} />

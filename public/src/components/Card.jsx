@@ -19,16 +19,16 @@ export default function Card({ product }) {
   }
 
   return (
-    <div className="card border-y bg-white-100 w-48 h-96 shadow-xl mt-1 mx-2 text-black transform hover:scale-105 transition-transform duration-200">
-      <figure>
-        <img src={product.imgUrl} alt={product.name} className="p-9 max-h-56" />
+    <div className="card border-y bg-white-100 w-48 h-auto shadow-lg mt-1 mx-2 text-black transform hover:scale-105 transition-transform duration-200">
+      <figure className="h-40">
+        <img src={product.imgUrl} alt={product.name} className="p-9 max-h-48" />
       </figure>
-      <div className="card-body">
+      <div className="card-body pt-2 pb-2">
         <h2 className="card-title text-xs font-normal">{product.name}</h2>
-        <p className="font-bold text-sm">{displayPrice(product.price)}</p>
+        <p className="font-bold text-xs text-green-700">{displayPrice(product.price)}</p>
       </div>
-      <div className="flex justify-end p-6">
-        <button onClick={(event) => handleSeeDetail(event, product.id)}>
+      <div className="flex justify-end pb-6 pr-6 pt-4">
+        <button className="text-xs" onClick={(event) => handleSeeDetail(event, product.id)}>
           See Detail
         </button>
       </div>
