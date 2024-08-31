@@ -8,9 +8,10 @@ export default function Home() {
   const [products, setProducts] = useState([]);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("1,2,3");
-  const [sort, setSort] = useState();
+  const [sort, setSort] = useState("DESC");
   const [page, setPage] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [totalPage, setTotalpage] = useState(0);
 
   const categories = [
     {
@@ -33,8 +34,11 @@ export default function Home() {
       const { data } = await axios.get(
         `https://server.geraldsimanullang.site/pub/products?search=${search}&filter[category]=${filter}&page=${page}`
       );
-      console.log(data);
+
+      setPage(data.currentPage);
+      setTotalpage(data.totalPage);
       setProducts(data.data);
+      set;
     } catch (error) {
       console.log(error);
     } finally {
@@ -68,6 +72,20 @@ export default function Home() {
     }
   }
 
+  function handlePreviousPage(event) {
+    event.preventDefault();
+    if (page > 1) {
+      setPage(page - 1);
+    }
+  }
+
+  function handleNextPage(event) {
+    event.preventDefault();
+    if (page < totalPage) {
+      setPage(page + 1);
+    }
+  }
+
   useEffect(() => {
     fetchProducts();
   }, [search, filter, sort, page]);
@@ -75,32 +93,15 @@ export default function Home() {
   return (
     <>
       <div className="flex flex-col gap-2 bg-white">
-        <div className="p-2">
+        <div className="p-2 border-y-2">
           <h1 className="text-black text-3xl text-center">
             Samsung Galaxy Store
           </h1>
         </div>
 
         <div className="flex justify-start pl-5">
-          <div className="flex flex-col gap-2 pt-3 w-auto">
-            <div>
-              <form
-                className="flex flex-col pb-4 gap-2"
-                onSubmit={(event) => handleSearch(event)}
-              >
-                <input
-                  type="text"
-                  className="w-30 h-8 px-4 py-2 border bg-white text-black text-xs border-gray-300 rounded-lg focus:outline-none"
-                  placeholder="Search"
-                />
-                <button
-                  type="submit"
-                  className="w-16 px-2 py-1 bg-orange-100 font-semibold text-black text-xs rounded-lg shadow-md hover:bg-orange-400"
-                >
-                  Search
-                </button>
-              </form>
-            </div>
+          <div className="flex flex-col gap-2 pt-3 w-auto mr-5">
+            <div></div>
             <h2 className="text-black text-sm font-semibold whitespace-nowrap">
               Filter by category
             </h2>
@@ -132,21 +133,58 @@ export default function Home() {
               </div>
             </form>
           </div>
-          <div className="flex flex-col justify-center w-full">
-            {loading ? (
-              <div className="flex flex-col justify-center items-center">
-                <img src={Loading} className="h-10 w-10"/>
-                <p>Loading...</p>
+          <div className="flex flex-col  w-full justify-start">
+            <div className="flex flex-col">
+              <div className="flex justify-between items-center w-full pr-32 pl-10">
+                <div>
+                  <form
+                    className="flex gap-2"
+                    onSubmit={(event) => handleSearch(event)}
+                  >
+                    <input
+                      type="text"
+                      className="w-48 h-8 px-4 py-2 border bg-white text-black text-xs border-gray-300 rounded-lg focus:outline-none"
+                      placeholder="Search"
+                    />
+                    <button
+                      type="submit"
+                      className="w-16 px-2 py-1 bg-orange-100 font-semibold text-black text-xs rounded-lg shadow-md hover:bg-orange-400"
+                    >
+                      Search
+                    </button>
+                  </form>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    className="btn bg-white text-black border-0 hover:bg-slate-200"
+                    onClick={(event) => handlePreviousPage(event)}
+                  >
+                    «
+                  </button>
+                  <p className=" bg-white text-black border-0">{`Page ${page} / ${totalPage}`}</p>
+                  <button
+                    className="btn bg-white text-black border-0 hover:bg-slate-200"
+                    onClick={(event) => handleNextPage(event)}
+                  >
+                    »
+                  </button>
+                </div>
               </div>
-            ) : (
-              <main className="flex flex-wrap justify-start px-6 pb-6 gap-6">
-                {products.map((el) => (
-                  <Link to={`/${el.id}`}>
-                    <Card product={el} />
-                  </Link>
-                ))}
-              </main>
-            )}
+              {loading ? (
+                <div className="flex flex-col justify-center items-center">
+                  <img src={Loading} className="h-10 w-10" />
+                  <p>Loading...</p>
+                </div>
+              ) : (
+                <main className="flex flex-wrap justify-start pl-6 px-2 pb-10 pt-2 gap-6 gap-y-10">
+                  {products.map((el) => (
+                    <Link to={`/${el.id}`}>
+                      <Card product={el} />
+                    </Link>
+                  ))}
+                </main>
+              )}
+            </div>
           </div>
         </div>
       </div>
