@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Card from "../components/Card";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import Loading from "../assets/Loading.svg";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
@@ -9,6 +10,7 @@ export default function Home() {
   const [filter, setFilter] = useState("1,2,3");
   const [sort, setSort] = useState();
   const [page, setPage] = useState(1);
+  const [loading, setLoading] = useState(false);
 
   const categories = [
     {
@@ -27,6 +29,7 @@ export default function Home() {
 
   async function fetchProducts() {
     try {
+      setLoading(true);
       const { data } = await axios.get(
         `https://server.geraldsimanullang.site/pub/products?search=${search}&filter[category]=${filter}&page=${page}`
       );
@@ -34,6 +37,8 @@ export default function Home() {
       setProducts(data.data);
     } catch (error) {
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -127,14 +132,21 @@ export default function Home() {
               </div>
             </form>
           </div>
-          <div className="flex flex-col">
-            <main className="flex flex-wrap justify-start px-6 pb-6 gap-6">
-              {products.map((el) => (
-                <Link to={`/${el.id}`}>
-                  <Card product={el} />
-                </Link>
-              ))}
-            </main>
+          <div className="flex flex-col justify-center w-full">
+            {loading ? (
+              <div className="flex flex-col justify-center items-center">
+                <img src={Loading} className="h-10 w-10"/>
+                <p>Loading...</p>
+              </div>
+            ) : (
+              <main className="flex flex-wrap justify-start px-6 pb-6 gap-6">
+                {products.map((el) => (
+                  <Link to={`/${el.id}`}>
+                    <Card product={el} />
+                  </Link>
+                ))}
+              </main>
+            )}
           </div>
         </div>
       </div>
