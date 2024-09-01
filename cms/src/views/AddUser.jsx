@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
-import Toastify from "toastify-js"
+import Toastify from "toastify-js";
 
 export default function AddUser({ serverUrl }) {
   const [username, setUsername] = useState("");
@@ -10,7 +10,7 @@ export default function AddUser({ serverUrl }) {
   const [phoneNumber, setPhoneNumber] = useState("");
   const [address, setAddress] = useState("");
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -37,8 +37,7 @@ export default function AddUser({ serverUrl }) {
         onClick: function () {}, // Callback after click
       }).showToast();
 
-      navigate("/")
-
+      navigate("/");
     } catch (error) {
       Toastify({
         text: error.response.data.message,

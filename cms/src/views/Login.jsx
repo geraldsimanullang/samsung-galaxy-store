@@ -14,10 +14,13 @@ export default function LoginPage() {
     try {
       e.preventDefault();
 
-      const { data } = await axios.post("https://server.geraldsimanullang.site/login", {emailOrUsername, password});
+      const { data } = await axios.post(
+        "https://server.geraldsimanullang.site/login",
+        { emailOrUsername, password }
+      );
 
       localStorage.setItem("access_token", data.access_token);
-      localStorage.setItem("role", data.role)
+      localStorage.setItem("role", data.role);
 
       Toastify({
         text: "Login success",
@@ -33,8 +36,7 @@ export default function LoginPage() {
         onClick: function () {}, // Callback after click
       }).showToast();
 
-      navigate("/")
-
+      navigate("/");
     } catch (error) {
       Toastify({
         text: error.response.data.message,
@@ -81,7 +83,7 @@ export default function LoginPage() {
                   required=""
                   autoComplete=""
                   className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                  onChange={(e)=> setEmailOrUsername(e.target.value)}
+                  onChange={(e) => setEmailOrUsername(e.target.value)}
                 />
               </div>
             </div>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import Toastify from "toastify-js";
-import Uploading from "../assets/Uploading.svg"
+import Uploading from "../assets/Uploading.svg";
 
 export default function EditImage({ serverUrl }) {
   const { id } = useParams();
@@ -57,8 +57,6 @@ export default function EditImage({ serverUrl }) {
           },
         }
       );
-
-      console.log(data)
 
       Toastify({
         text: `${data.message}`,
@@ -118,12 +116,16 @@ export default function EditImage({ serverUrl }) {
             Save Image
           </button>
         </form>
-        {uploading ? <>
-          <div className="flex gap-1 justify-center items-center w-full">
-            <img src={Uploading} className="h-10"/>
-            <p className="text-black">uploading...</p>
-          </div>
-        </> : <></>}
+        {uploading ? (
+          <>
+            <div className="flex gap-1 justify-center items-center w-full">
+              <img src={Uploading} className="h-10" />
+              <p className="text-black">uploading...</p>
+            </div>
+          </>
+        ) : (
+          <></>
+        )}
       </div>
     </>
   );
