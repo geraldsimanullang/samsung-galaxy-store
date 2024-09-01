@@ -3,6 +3,7 @@ import ProductForm from "../components/ProductForm";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
+import Toastify from "toastify-js";
 
 export default function EditProduct({ serverUrl }) {
   const navigate = useNavigate();
@@ -24,8 +25,8 @@ export default function EditProduct({ serverUrl }) {
   }
 
   useEffect(() => {
-    getProduct()
-  }, [id])
+    getProduct();
+  }, [id]);
 
   async function handleSubmit(
     event,
@@ -47,10 +48,35 @@ export default function EditProduct({ serverUrl }) {
         },
       });
 
-      navigate("/");
+      Toastify({
+        text: `${data.updatedProduct[0].name} edited successfully`,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#008000",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
 
+      navigate("/");
     } catch (error) {
-      console.log(error);
+      Toastify({
+        text: error.response.data.message,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#FF0000",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
     }
   }
 

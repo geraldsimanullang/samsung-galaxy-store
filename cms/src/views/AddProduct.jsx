@@ -26,6 +26,20 @@ export default function AddProduct({ serverUrl }) {
         },
       });
 
+      Toastify({
+        text: `${data.newProduct.name} added successfully`,
+        duration: 3000,
+        newWindow: true,
+        close: true,
+        gravity: "bottom", // `top` or `bottom`
+        position: "right", // `left`, `center` or `right`
+        stopOnFocus: true, // Prevents dismissing of toast on hover
+        style: {
+          background: "#008000",
+        },
+        onClick: function () {}, // Callback after click
+      }).showToast();
+
       navigate("/");
     } catch (error) {
       Toastify({

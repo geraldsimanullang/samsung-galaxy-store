@@ -2,6 +2,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import Loading from "../assets/Loading.svg";
+import Toastify from "toastify-js";
 
 export default function Home({ serverUrl }) {
   const [products, setProducts] = useState([]);
@@ -46,7 +47,7 @@ export default function Home({ serverUrl }) {
     try {
       event.preventDefault();
 
-      await axios.delete(
+      const { data } = await axios.delete(
         `https://server.geraldsimanullang.site/products/${id}`,
         {
           headers: {
@@ -54,6 +55,8 @@ export default function Home({ serverUrl }) {
           },
         }
       );
+
+      
 
       getProducts();
     } catch (error) {
